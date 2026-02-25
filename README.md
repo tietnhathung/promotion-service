@@ -15,7 +15,7 @@ cmd/server                      # composition root
 internal/domain                 # business rules (entities, rules, discount)
 internal/application            # use case: apply promotion
 internal/ports                  # interface output port
-internal/adapters/outbound      # repository implementation (memory)
+internal/adapters/outbound      # repository implementation (memory, postgres)
 internal/adapters/inbound       # HTTP handler
 ```
 
@@ -24,6 +24,18 @@ internal/adapters/inbound       # HTTP handler
 ```bash
 go run ./cmd/server
 ```
+
+## Chạy với PostgreSQL
+
+Service sẽ tự dùng PostgreSQL nếu có env `DATABASE_URL`.
+
+Ví dụ:
+
+```bash
+DATABASE_URL="postgres://postgres:postgres@localhost:5432/promotion_service?sslmode=disable" go run ./cmd/server
+```
+
+Khi start, service tự tạo bảng `promotions` nếu chưa có.
 
 ## API
 
@@ -37,6 +49,14 @@ Body:
   "card_count": 2
 }
 ```
+
+CRUD promotion:
+
+- `GET /promotions`
+- `GET /promotions/{id}`
+- `POST /promotions`
+- `PUT /promotions/{id}`
+- `DELETE /promotions/{id}`
 
 Ví dụ response:
 
