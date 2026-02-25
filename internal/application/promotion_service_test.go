@@ -10,6 +10,31 @@ type stubRepo struct {
 	promotions []domain.Promotion
 }
 
+func (s stubRepo) List() ([]domain.Promotion, error) {
+	return s.promotions, nil
+}
+
+func (s stubRepo) GetByID(id string) (domain.Promotion, bool, error) {
+	for _, p := range s.promotions {
+		if p.ID == id {
+			return p, true, nil
+		}
+	}
+	return domain.Promotion{}, false, nil
+}
+
+func (s stubRepo) Create(_ domain.Promotion) error {
+	return nil
+}
+
+func (s stubRepo) Update(_ string, _ domain.Promotion) (bool, error) {
+	return false, nil
+}
+
+func (s stubRepo) Delete(_ string) (bool, error) {
+	return false, nil
+}
+
 func (s stubRepo) ListActive() ([]domain.Promotion, error) {
 	return s.promotions, nil
 }
